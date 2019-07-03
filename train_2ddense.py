@@ -138,7 +138,7 @@ def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorl
 
 def load_fast_files(args):
 
-    trainidx = list(range(131))
+    trainidx = list(range(1))
     img_list = []
     tumor_list = []
     minindex_list = []
