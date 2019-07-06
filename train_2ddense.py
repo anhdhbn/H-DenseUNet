@@ -134,6 +134,7 @@ def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorl
         for idx in xrange(len(result_list)):
             X[idx, :, :, :] = result_list[idx][0]
             Y[idx, :, :, 0] = result_list[idx][1]
+        print("getsizeof X, y", sys.getsizeof(X), sys.getsizeof(Y))
         yield (X,Y)
 
 
