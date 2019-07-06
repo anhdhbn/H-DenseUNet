@@ -193,7 +193,7 @@ def train_and_predict():
     # model = multi_gpu_model(model, gpus=None)
     sgd = SGD(lr=1e-3, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd, loss=[weighted_crossentropy_2ddense], metrics=['accuracy'])
-    model.summary()
+    # model.summary()
     trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list = load_fast_files(args)
 
     print('-'*30)
