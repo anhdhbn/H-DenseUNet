@@ -182,7 +182,16 @@ def load_fast_files(args):
         liverlines.append(liverline)
         liveridx.append(len(liverline))
         f2.close()
+        print("trainidx", sys.getsizeof(trainidx)*1.0/1024/1024)
+        print("img_list", sys.getsizeof(img_list)*1.0/1024/1024)
         print("tumor_list", sys.getsizeof(tumor_list)*1.0/1024/1024)
+        print("tumorlines", sys.getsizeof(tumorlines)*1.0/1024/1024)
+        print("liverlines", sys.getsizeof(liverlines)*1.0/1024/1024)
+        print("tumoridx", sys.getsizeof(tumoridx)*1.0/1024/1024)
+        print("liveridx", sys.getsizeof(liveridx)*1.0/1024/1024)
+        print("minindex_list", sys.getsizeof(minindex_list)*1.0/1024/1024)
+        print("maxindex_list", sys.getsizeof(maxindex_list)*1.0/1024/1024)
+        print("number_sample", sys.getsizeof(number_sample)*1.0/1024/1024)
 
 
     print('-'*30)
@@ -190,7 +199,7 @@ def load_fast_files(args):
     print('-'*30)
 
     print('-'*30)
-    print('liverlines', liverlines)
+    print('liverlines', len(liverlines))
     print('-'*30)
 
     print('-'*30)
