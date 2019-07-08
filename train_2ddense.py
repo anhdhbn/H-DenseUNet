@@ -152,6 +152,7 @@ def load_fast_files(args):
     for idx in xrange(number_train):
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
+        print(img.shape )
         tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
         img_list.append(img)
         tumor_list.append(tumor)
@@ -187,7 +188,7 @@ def load_fast_files(args):
     print('-'*30)
 
     print('-'*30)
-    print('liverlines', liverlines[10])
+    print('liverlines', liverlines)
     print('-'*30)
 
     print('-'*30)
