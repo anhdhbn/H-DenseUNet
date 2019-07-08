@@ -153,7 +153,8 @@ def load_fast_files(args):
     for idx in xrange(number_train):
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
-        number_sample = img.shape[2] + number_sample
+        x, y, z = img.shape
+        number_sample = z + number_sample
         tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
         img_list.append(img)
         tumor_list.append(tumor)
