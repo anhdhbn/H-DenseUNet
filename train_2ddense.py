@@ -140,7 +140,8 @@ def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorl
 
 def load_fast_files(args):
 
-    trainidx = list(range(131))
+    number_train = 40
+    trainidx = list(range(number_train))
     img_list = []
     tumor_list = []
     minindex_list = []
@@ -149,7 +150,7 @@ def load_fast_files(args):
     tumoridx = []
     liveridx = []
     liverlines = []
-    for idx in xrange(131):
+    for idx in xrange(number_train):
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
         tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
