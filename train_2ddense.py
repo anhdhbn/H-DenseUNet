@@ -181,7 +181,7 @@ def load_fast_files(args):
         liverlines.append(liverline)
         liveridx.append(len(liverline))
         f2.close()
-        
+        print("tumor_list", sys.getsizeof(tumor_list)*1.0/1024/1024)
 
 
     print('-'*30)
