@@ -188,7 +188,7 @@ def load_fast_files(args):
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
         (x, y, z) = img.shape
-        number_sample = z + number_sample
+        number_sample = int(z) + int(number_sample)
         print(z)
         print(type(z))
         # tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
