@@ -108,7 +108,8 @@ def load_seq_crop_data_masktumor_try(Parameter_List):
     cropp_img   = resize(cropp_img, (args.input_size,args.input_size,args.input_cols), order=3, mode='constant', cval=0, clip=True, preserve_range=True)
     return cropp_img, cropp_tumor[:,:,1]
 
-def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list):
+# def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list):
+def generate_arrays_from_file(batch_size):
     while 1:
         X = np.zeros((batch_size, args.input_size, args.input_size, args.input_cols), dtype='float32')
         Y = np.zeros((batch_size, args.input_size, args.input_size, 1), dtype='int16')
