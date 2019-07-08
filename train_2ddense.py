@@ -306,7 +306,7 @@ def train_and_predict():
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
     #                                                 workers=3, use_multiprocessing=True)
-    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),validation_data=generate_arrays_from_file(args.b, validx)
+    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),validation_data=generate_arrays_from_file(args.b, validx),
                                                     epochs= 1, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
                                                     workers=1, use_multiprocessing=False)
 
