@@ -7,7 +7,7 @@ from keras.layers.pooling import AveragePooling2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 from lib.custom_layers import Scale
 
-def DenseUNet(nb_dense_block=2, growth_rate=24, nb_filter=48, reduction=0.0, dropout_rate=0.0, weight_decay=1e-4, weights_path=None,
+def DenseUNet(nb_dense_block=2, growth_rate=12, nb_filter=24, reduction=0.0, dropout_rate=0.0, weight_decay=1e-4, weights_path=None,
               args=None):
     '''Instantiate the DenseNet 161 architecture,
         # Arguments
