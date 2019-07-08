@@ -258,7 +258,7 @@ def load_fast_files(args, trainidx):
 def train_and_predict():
     number_train = 10
     trainidx = list(range(number_train))
-    validx = list(range(20, 21))
+    validx = list(range(31, 32))
     # trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
     number_samples = load_fast_files(args, trainidx)
     number_samples_val = load_fast_files(args, validx)
