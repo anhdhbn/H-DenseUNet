@@ -171,10 +171,9 @@ def generate_arrays_from_file(batch_size,trainidx):
         yield (X,Y)
 
 
-def load_fast_files(args):
+def load_fast_files(args, number_train):
 
-    number_train = 8
-    trainidx = list(range(number_train))
+    
     img_list = []
     tumor_list = []
     minindex_list = []
@@ -254,12 +253,13 @@ def load_fast_files(args):
     # print('-'*30)
 
     # return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample
-    return trainidx, number_sample
+    return number_sample
 
 def train_and_predict():
-
+    number_train = 8
+    trainidx = list(range(number_train))
     # trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
-    trainidx, number_sample = load_fast_files(args)
+    number_samples = load_fast_files(args, number_train)
     print("get_available_gpus ", get_available_gpus())
 
     print('-'*30)
@@ -297,8 +297,8 @@ def train_and_predict():
                                        save_best_only=False,save_weights_only=False,mode = 'min', period = 1)
 
 
-    steps = number_sample / args.b
-    math.ceil(number_sample / args.b)
+    steps = math.ceil(number_samples / args.b)
+    print("steps", steps)
     # model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
