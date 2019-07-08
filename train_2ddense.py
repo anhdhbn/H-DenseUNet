@@ -140,7 +140,7 @@ def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorl
 
 def load_fast_files(args):
 
-    number_train = 40
+    number_train = 20
     trainidx = list(range(number_train))
     img_list = []
     tumor_list = []
@@ -191,7 +191,7 @@ def train_and_predict():
     print('Creating and compiling model...')
     print('-'*30)
 
-    model = DenseUNet(reduction=0.5, args=args,nb_dense_block=2, growth_rate=24,nb_filter=48)
+    model = DenseUNet(reduction=0.5, args=args,nb_dense_block=4, growth_rate=24,nb_filter=48)
     # model.load_weights(args.model_weight, by_name=True)
     # model = make_parallel(model, args.b / 10, mini_batch=10)
     # model = multi_gpu_model(model, gpus=None)
