@@ -171,7 +171,7 @@ def generate_arrays_from_file(batch_size,trainidx):
         yield (X,Y)
 
 
-def load_fast_files(args, number_train):
+def load_fast_files(args, trainidx):
 
     
     img_list = []
@@ -183,7 +183,7 @@ def load_fast_files(args, number_train):
     liveridx = []
     liverlines = []
     number_sample = 0
-    for idx in xrange(number_train):
+    for idx in trainidx:
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
         (x, y, z) = img.shape
@@ -258,8 +258,10 @@ def load_fast_files(args, number_train):
 def train_and_predict():
     number_train = 10
     trainidx = list(range(number_train))
+    validx = list(range(20, 24))
     # trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
-    number_samples = load_fast_files(args, number_train)
+    number_samples = load_fast_files(args, trainidx)
+    number_samples_val = load_fast_files(args, validx)
     print("get_available_gpus ", get_available_gpus())
 
     print('-'*30)
@@ -298,12 +300,13 @@ def train_and_predict():
 
 
     steps = math.ceil(number_samples / args.b)
+    steps_val = math.ceil(number_samples_val / args.b)
     print("steps", int(steps))
     # model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
     #                                                 workers=3, use_multiprocessing=True)
-    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),
+    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),validation_data=generate_arrays_from_file(args.b, validx)
                                                     epochs= 1, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
                                                     workers=1, use_multiprocessing=False)
 
