@@ -302,6 +302,7 @@ def train_and_predict():
     steps = math.ceil(number_samples / args.b)
     steps_val = math.ceil(number_samples_val / args.b)
     print("steps", int(steps))
+    print("steps_val", int(steps_val))
     # model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
