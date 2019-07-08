@@ -180,6 +180,39 @@ def load_fast_files(args):
         liveridx.append(len(liverline))
         f2.close()
 
+    print('-'*30)
+    print('img_list', img_list[:10])
+    print('-'*30)
+
+    print('-'*30)
+    print('tumor_list', tumor_list[10])
+    print('-'*30)
+
+    print('-'*30)
+    print('tumor_list', tumor_list[10])
+    print('-'*30)
+
+    print('-'*30)
+    print('liverlines', liverlines[10])
+    print('-'*30)
+
+    print('-'*30)
+    print('tumoridx', tumoridx[10])
+    print('-'*30)
+
+
+    print('-'*30)
+    print('liveridx', liveridx[10])
+    print('-'*30)
+
+    print('-'*30)
+    print('minindex_list', minindex_list[10])
+    print('-'*30)
+
+    print('-'*30)
+    print('maxindex_list', maxindex_list[10])
+    print('-'*30)
+
     return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list
 
 def train_and_predict():
@@ -190,6 +223,8 @@ def train_and_predict():
     print('Creating and compiling model...')
     print('-'*30)
 
+    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list = load_fast_files(args)
+
     model = DenseUNet(reduction=0.5, args=args,nb_dense_block=4, growth_rate=24,nb_filter=48)
     # model.load_weights(args.model_weight, by_name=True)
     # model = make_parallel(model, args.b / 10, mini_batch=10)
@@ -197,7 +232,7 @@ def train_and_predict():
     sgd = SGD(lr=1e-3, momentum=0.9, nesterov=True)
     model.compile(optimizer=sgd, loss=[weighted_crossentropy_2ddense], metrics=['accuracy'])
     model.summary()
-    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list = load_fast_files(args)
+    
 
     print('-'*30)
     print('Fitting model......')
@@ -220,6 +255,7 @@ def train_and_predict():
 
 
     steps = 27386 / args.b
+    ceil(num_samples / args.b)
     model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
                                                   liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
                                                     epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
