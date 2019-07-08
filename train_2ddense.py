@@ -195,28 +195,28 @@ def load_fast_files(args):
 
 
     print('-'*30)
-    print('tumor_list', len(tumor_list))
+    print('tumor_list', tumor_list[0])
     print('-'*30)
 
     print('-'*30)
-    print('liverlines', len(liverlines))
+    print('liverlines', liverlines[0])
     print('-'*30)
 
     print('-'*30)
-    print('tumoridx', tumoridx[10])
+    print('tumoridx', tumoridx[0])
     print('-'*30)
 
 
     print('-'*30)
-    print('liveridx', liveridx[10])
+    print('liveridx', liveridx[0])
     print('-'*30)
 
     print('-'*30)
-    print('minindex_list', minindex_list[10])
+    print('minindex_list', minindex_list[0])
     print('-'*30)
 
     print('-'*30)
-    print('maxindex_list', maxindex_list[10])
+    print('maxindex_list', maxindex_list[0])
     print('-'*30)
 
     return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample
