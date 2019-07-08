@@ -153,7 +153,7 @@ def load_fast_files(args):
     for idx in xrange(number_train):
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
-        number_sample = img.shape + number_sample
+        number_sample = img.shape[2] + number_sample
         tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
         img_list.append(img)
         tumor_list.append(tumor)
@@ -213,13 +213,14 @@ def load_fast_files(args):
 
 def train_and_predict():
 
+    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
     print("get_available_gpus ", get_available_gpus())
 
     print('-'*30)
     print('Creating and compiling model...')
     print('-'*30)
 
-    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
+    
 
     model = DenseUNet(reduction=0.5, args=args,nb_dense_block=4, growth_rate=24,nb_filter=48)
     # model.load_weights(args.model_weight, by_name=True)
