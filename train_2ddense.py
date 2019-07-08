@@ -189,8 +189,6 @@ def load_fast_files(args):
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
         (x, y, z) = img.shape
         number_sample = int(z) + int(number_sample)
-        print(z)
-        print(type(z))
         # tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
         # img_list.append(img)
         # tumor_list.append(tumor)
@@ -261,7 +259,7 @@ def load_fast_files(args):
 def train_and_predict():
 
     # trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
-    number_sample = load_fast_files(args)
+    trainidx, number_sample = load_fast_files(args)
     print("get_available_gpus ", get_available_gpus())
 
     print('-'*30)
