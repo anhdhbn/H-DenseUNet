@@ -167,7 +167,7 @@ def generate_arrays_from_file(batch_size,trainidx):
         for idx in xrange(len(result_list)):
             X[idx, :, :, :] = result_list[idx][0]
             Y[idx, :, :, 0] = result_list[idx][1]
-        print("getsizeof X, y", sys.getsizeof(X), sys.getsizeof(Y))
+        print("getsizeof X, y", sys.getsizeof(X)*1.0/1024/1024, sys.getsizeof(Y)*1.0/1024/1024)
         yield (X,Y)
 
 
@@ -305,7 +305,7 @@ def train_and_predict():
     #                                                 workers=3, use_multiprocessing=True)
     model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),
                                                     epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
-                                                    workers=3, use_multiprocessing=True)
+                                                    workers=1, use_multiprocessing=True)
 
     print ('Finised Training .......')
 
