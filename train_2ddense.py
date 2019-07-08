@@ -12,6 +12,7 @@ from keras.callbacks import ModelCheckpoint
 import keras.backend as K
 from loss import weighted_crossentropy_2ddense
 import os
+import math
 # from keras.utils2.multi_gpu import make_parallel
 
 from keras.utils import multi_gpu_model
@@ -114,17 +115,49 @@ def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorl
         Parameter_List = []
         for idx in xrange(batch_size):
             count = random.choice(trainidx)
-            img = img_list[count]
-            tumor = tumor_list[count]
-            minindex = minindex_list[count]
-            maxindex = maxindex_list[count]
+
+            img, img_header = load(args.data+ '/myTrainingData/volume-' + str(count) + '.nii')
+            tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(count) + '.nii')
+            maxmin = np.loadtxt(args.data + '/myTrainingDataTxt/LiverBox/box_' + str(count) + '.txt', delimiter=' ')
+
+            minindex = maxmin[0:3]
+            maxindex = maxmin[3:6]
+            minindex = np.array(minindex, dtype='int')
+            maxindex = np.array(maxindex, dtype='int')
+            minindex[0] = max(minindex[0] - 3, 0)
+            minindex[1] = max(minindex[1] - 3, 0)
+            minindex[2] = max(minindex[2] - 3, 0)
+            maxindex[0] = min(img.shape[0], maxindex[0] + 3)
+            maxindex[1] = min(img.shape[1], maxindex[1] + 3)
+            maxindex[2] = min(img.shape[2], maxindex[2] + 3)
+
+            # img = img_list[count]
+            # tumor = tumor_list[count]
+            # minindex = minindex_list[count]
+            # maxindex = maxindex_list[count]
+
+            
+            f1 = open(args.data + '/myTrainingDataTxt/TumorPixels/tumor_' + str(idx) + '.txt', 'r')
+            tumorline = f1.readlines()
+            # tumorlines.append(tumorline)
+            # tumoridx.append(len(tumorline))
+            f1.close()
+            f2 = open(args.data + '/myTrainingDataTxt/LiverPixels/liver_' + str(idx) + '.txt', 'r')
+            liverline = f2.readlines()
+            # liverlines.append(liverline)
+            # liveridx.append(len(liverline))
+            f2.close()
+
+
+
+
             num = np.random.randint(0,6)
             if num < 3 or (count in liverlist):
-                lines = liverlines[count]
-                numid = liveridx[count]
+                lines = liverline
+                numid = len(liverline)
             else:
-                lines = tumorlines[count]
-                numid = tumoridx[count]
+                lines = tumorline
+                numid = len(tumorline)
             Parameter_List.append([img, tumor, lines, numid, minindex, maxindex])
         pool = ThreadPool(thread_num)
         result_list = pool.map(load_seq_crop_data_masktumor_try, Parameter_List)
@@ -155,75 +188,77 @@ def load_fast_files(args):
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
         x, y, z = img.shape
         number_sample = z + number_sample
-        tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
-        img_list.append(img)
-        tumor_list.append(tumor)
+        # tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
+        # img_list.append(img)
+        # tumor_list.append(tumor)
 
-        maxmin = np.loadtxt(args.data + '/myTrainingDataTxt/LiverBox/box_' + str(idx) + '.txt', delimiter=' ')
-        minindex = maxmin[0:3]
-        maxindex = maxmin[3:6]
-        minindex = np.array(minindex, dtype='int')
-        maxindex = np.array(maxindex, dtype='int')
-        minindex[0] = max(minindex[0] - 3, 0)
-        minindex[1] = max(minindex[1] - 3, 0)
-        minindex[2] = max(minindex[2] - 3, 0)
-        maxindex[0] = min(img.shape[0], maxindex[0] + 3)
-        maxindex[1] = min(img.shape[1], maxindex[1] + 3)
-        maxindex[2] = min(img.shape[2], maxindex[2] + 3)
-        minindex_list.append(minindex)
-        maxindex_list.append(maxindex)
-        f1 = open(args.data + '/myTrainingDataTxt/TumorPixels/tumor_' + str(idx) + '.txt', 'r')
-        tumorline = f1.readlines()
-        tumorlines.append(tumorline)
-        tumoridx.append(len(tumorline))
-        f1.close()
-        f2 = open(args.data + '/myTrainingDataTxt/LiverPixels/liver_' + str(idx) + '.txt', 'r')
-        liverline = f2.readlines()
-        liverlines.append(liverline)
-        liveridx.append(len(liverline))
-        f2.close()
-        print("trainidx", sys.getsizeof(trainidx)*1.0/1024/1024)
-        print("img_list", sys.getsizeof(img_list)*1.0/1024/1024)
-        print("tumor_list", sys.getsizeof(tumor_list)*1.0/1024/1024)
-        print("tumorlines", sys.getsizeof(tumorlines)*1.0/1024/1024)
-        print("liverlines", sys.getsizeof(liverlines)*1.0/1024/1024)
-        print("tumoridx", sys.getsizeof(tumoridx)*1.0/1024/1024)
-        print("liveridx", sys.getsizeof(liveridx)*1.0/1024/1024)
-        print("minindex_list", sys.getsizeof(minindex_list)*1.0/1024/1024)
-        print("maxindex_list", sys.getsizeof(maxindex_list)*1.0/1024/1024)
-        print("number_sample", sys.getsizeof(number_sample)*1.0/1024/1024)
-
-
-    print('-'*30)
-    print('tumor_list', tumor_list[0])
-    print('-'*30)
-
-    print('-'*30)
-    print('liverlines', liverlines[0])
-    print('-'*30)
-
-    print('-'*30)
-    print('tumoridx', tumoridx[0])
-    print('-'*30)
+        # maxmin = np.loadtxt(args.data + '/myTrainingDataTxt/LiverBox/box_' + str(idx) + '.txt', delimiter=' ')
+        # minindex = maxmin[0:3]
+        # maxindex = maxmin[3:6]
+        # minindex = np.array(minindex, dtype='int')
+        # maxindex = np.array(maxindex, dtype='int')
+        # minindex[0] = max(minindex[0] - 3, 0)
+        # minindex[1] = max(minindex[1] - 3, 0)
+        # minindex[2] = max(minindex[2] - 3, 0)
+        # maxindex[0] = min(img.shape[0], maxindex[0] + 3)
+        # maxindex[1] = min(img.shape[1], maxindex[1] + 3)
+        # maxindex[2] = min(img.shape[2], maxindex[2] + 3)
+        # minindex_list.append(minindex)
+        # maxindex_list.append(maxindex)
+        # f1 = open(args.data + '/myTrainingDataTxt/TumorPixels/tumor_' + str(idx) + '.txt', 'r')
+        # tumorline = f1.readlines()
+        # tumorlines.append(tumorline)
+        # tumoridx.append(len(tumorline))
+        # f1.close()
+        # f2 = open(args.data + '/myTrainingDataTxt/LiverPixels/liver_' + str(idx) + '.txt', 'r')
+        # liverline = f2.readlines()
+        # liverlines.append(liverline)
+        # liveridx.append(len(liverline))
+        # f2.close()
+        # print("trainidx", sys.getsizeof(trainidx)*1.0/1024/1024)
+        # print("img_list", sys.getsizeof(img_list)*1.0/1024/1024)
+        # print("tumor_list", sys.getsizeof(tumor_list)*1.0/1024/1024)
+        # print("tumorlines", sys.getsizeof(tumorlines)*1.0/1024/1024)
+        # print("liverlines", sys.getsizeof(liverlines)*1.0/1024/1024)
+        # print("tumoridx", sys.getsizeof(tumoridx)*1.0/1024/1024)
+        # print("liveridx", sys.getsizeof(liveridx)*1.0/1024/1024)
+        # print("minindex_list", sys.getsizeof(minindex_list)*1.0/1024/1024)
+        # print("maxindex_list", sys.getsizeof(maxindex_list)*1.0/1024/1024)
+        # print("number_sample", sys.getsizeof(number_sample)*1.0/1024/1024)
 
 
-    print('-'*30)
-    print('liveridx', liveridx[0])
-    print('-'*30)
+    # print('-'*30)
+    # print('tumor_list', tumor_list[0])
+    # print('-'*30)
 
-    print('-'*30)
-    print('minindex_list', minindex_list[0])
-    print('-'*30)
+    # print('-'*30)
+    # print('liverlines', liverlines[0])
+    # print('-'*30)
 
-    print('-'*30)
-    print('maxindex_list', maxindex_list[0])
-    print('-'*30)
+    # print('-'*30)
+    # print('tumoridx', tumoridx[0])
+    # print('-'*30)
 
-    return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample
+
+    # print('-'*30)
+    # print('liveridx', liveridx[0])
+    # print('-'*30)
+
+    # print('-'*30)
+    # print('minindex_list', minindex_list[0])
+    # print('-'*30)
+
+    # print('-'*30)
+    # print('maxindex_list', maxindex_list[0])
+    # print('-'*30)
+
+    # return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample
+    return number_sample
 
 def train_and_predict():
 
-    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
+    # trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
+     number_sample = load_fast_files(args)
     print("get_available_gpus ", get_available_gpus())
 
     print('-'*30)
@@ -262,9 +297,12 @@ def train_and_predict():
 
 
     steps = number_sample / args.b
-    ceil(num_samples / args.b)
-    model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
-                                                  liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
+    math.ceil(num_samples / args.b)
+    # model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
+    #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
+    #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
+    #                                                 workers=3, use_multiprocessing=True)
+    model.fit_generator(generate_arrays_from_file(args.b),steps_per_epoch=steps,
                                                     epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
                                                     workers=3, use_multiprocessing=True)
 
