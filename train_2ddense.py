@@ -109,7 +109,7 @@ def load_seq_crop_data_masktumor_try(Parameter_List):
     return cropp_img, cropp_tumor[:,:,1]
 
 # def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list):
-def generate_arrays_from_file(batch_size):
+def generate_arrays_from_file(batch_size,trainidx):
     while 1:
         X = np.zeros((batch_size, args.input_size, args.input_size, args.input_cols), dtype='float32')
         Y = np.zeros((batch_size, args.input_size, args.input_size, 1), dtype='int16')
@@ -254,7 +254,7 @@ def load_fast_files(args):
     # print('-'*30)
 
     # return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample
-    return number_sample
+    return trainidx, number_sample
 
 def train_and_predict():
 
@@ -303,7 +303,7 @@ def train_and_predict():
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
     #                                                 workers=3, use_multiprocessing=True)
-    model.fit_generator(generate_arrays_from_file(args.b),steps_per_epoch=steps,
+    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=steps,
                                                     epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
                                                     workers=3, use_multiprocessing=True)
 
