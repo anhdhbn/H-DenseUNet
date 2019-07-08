@@ -303,7 +303,7 @@ def train_and_predict():
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
     #                                                 workers=3, use_multiprocessing=True)
-    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=steps,
+    model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),
                                                     epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
                                                     workers=3, use_multiprocessing=True)
 
