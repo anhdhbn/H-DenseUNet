@@ -190,7 +190,7 @@ def train_and_predict():
     print('-'*30)
 
     model = DenseUNet(reduction=0.5, args=args)
-    model.load_weights(args.model_weight, by_name=True)
+    # model.load_weights(args.model_weight, by_name=True)
     # model = make_parallel(model, args.b / 10, mini_batch=10)
     # model = multi_gpu_model(model, gpus=None)
     sgd = SGD(lr=1e-3, momentum=0.9, nesterov=True)
