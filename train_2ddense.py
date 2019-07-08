@@ -268,7 +268,7 @@ def train_and_predict():
 
     
 
-    model = DenseUNet(reduction=0.5, args=args,nb_dense_block=4, growth_rate=24,nb_filter=48)
+    model = DenseUNet(reduction=0.5, args=args,nb_dense_block=4, growth_rate=12,nb_filter=24)
     # model.load_weights(args.model_weight, by_name=True)
     # model = make_parallel(model, args.b / 10, mini_batch=10)
     # model = multi_gpu_model(model, gpus=None)
@@ -298,7 +298,7 @@ def train_and_predict():
 
 
     steps = math.ceil(number_samples / args.b)
-    print("steps", steps)
+    print("steps", int(steps))
     # model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
     #                                               liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
