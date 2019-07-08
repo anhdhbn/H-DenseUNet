@@ -305,7 +305,7 @@ def train_and_predict():
     #                                                 workers=3, use_multiprocessing=True)
     model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),
                                                     epochs= 3, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
-                                                    workers=4, use_multiprocessing=True)
+                                                    workers=2, use_multiprocessing=True)
 
     print ('Finised Training .......')
 
