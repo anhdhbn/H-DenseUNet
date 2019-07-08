@@ -258,7 +258,7 @@ def load_fast_files(args):
 def train_and_predict():
 
     # trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
-     number_sample = load_fast_files(args)
+    number_sample = load_fast_files(args)
     print("get_available_gpus ", get_available_gpus())
 
     print('-'*30)
