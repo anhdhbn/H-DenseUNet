@@ -149,10 +149,11 @@ def load_fast_files(args):
     tumoridx = []
     liveridx = []
     liverlines = []
+    number_sample = 0
     for idx in xrange(number_train):
         print(idx)
         img, img_header = load(args.data+ '/myTrainingData/volume-' + str(idx) + '.nii')
-        print(img.shape )
+        number_sample = img.shape + number_sample
         tumor, tumor_header = load(args.data + '/myTrainingData/segmentation-' + str(idx) + '.nii')
         img_list.append(img)
         tumor_list.append(tumor)
@@ -180,11 +181,11 @@ def load_fast_files(args):
         liverlines.append(liverline)
         liveridx.append(len(liverline))
         f2.close()
-
+        
 
 
     print('-'*30)
-    print('tumor_list', tumor_list)
+    print('tumor_list', len(tumor_list))
     print('-'*30)
 
     print('-'*30)
@@ -208,7 +209,7 @@ def load_fast_files(args):
     print('maxindex_list', maxindex_list[10])
     print('-'*30)
 
-    return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list
+    return trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample
 
 def train_and_predict():
 
@@ -218,7 +219,7 @@ def train_and_predict():
     print('Creating and compiling model...')
     print('-'*30)
 
-    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list = load_fast_files(args)
+    trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx, liveridx, minindex_list, maxindex_list, number_sample = load_fast_files(args)
 
     model = DenseUNet(reduction=0.5, args=args,nb_dense_block=4, growth_rate=24,nb_filter=48)
     # model.load_weights(args.model_weight, by_name=True)
@@ -249,7 +250,7 @@ def train_and_predict():
                                        save_best_only=False,save_weights_only=False,mode = 'min', period = 1)
 
 
-    steps = 27386 / args.b
+    steps = number_sample / args.b
     ceil(num_samples / args.b)
     model.fit_generator(generate_arrays_from_file(args.b, trainidx, img_list, tumor_list, tumorlines, liverlines, tumoridx,
                                                   liveridx, minindex_list, maxindex_list),steps_per_epoch=steps,
