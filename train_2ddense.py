@@ -140,7 +140,7 @@ def generate_arrays_from_file(batch_size, trainidx, img_list, tumor_list, tumorl
 
 def load_fast_files(args):
 
-    number_train = 20
+    number_train = 12
     trainidx = list(range(number_train))
     img_list = []
     tumor_list = []
