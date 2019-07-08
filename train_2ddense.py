@@ -308,6 +308,7 @@ def train_and_predict():
     #                                                 epochs= 6000, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
     #                                                 workers=3, use_multiprocessing=True)
     model.fit_generator(generate_arrays_from_file(args.b, trainidx),steps_per_epoch=int(steps),validation_data=generate_arrays_from_file(args.b, validx),
+                                                    validation_steps=steps_val,
                                                     epochs= 1, verbose = 1, callbacks = [model_checkpoint], max_queue_size=10,
                                                     workers=1, use_multiprocessing=False)
 
