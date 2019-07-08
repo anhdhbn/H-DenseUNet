@@ -187,10 +187,6 @@ def load_fast_files(args):
     print('-'*30)
 
     print('-'*30)
-    print('tumor_list', tumor_list[10])
-    print('-'*30)
-
-    print('-'*30)
     print('liverlines', liverlines[10])
     print('-'*30)
 
