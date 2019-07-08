@@ -180,12 +180,10 @@ def load_fast_files(args):
         liveridx.append(len(liverline))
         f2.close()
 
-    print('-'*30)
-    print('img_list', img_list[:10])
-    print('-'*30)
+
 
     print('-'*30)
-    print('tumor_list', tumor_list[10])
+    print('tumor_list', tumor_list)
     print('-'*30)
 
     print('-'*30)
