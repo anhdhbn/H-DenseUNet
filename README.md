@@ -3,7 +3,7 @@ by [Xiaomeng Li](https://scholar.google.com/citations?user=uVTzPpoAAAAJ&hl=en), 
 
 
 ### Sử dụng 2 models.
-- __Vũ Thành Đạt__ sử dụng Resnet-50 ở lớp decoder (__model 1__)
+- __Vũ Thành Đạt__ sử dụng Resnet-50 ở lớp decoder (__model 1__)[https://github.com/stephenvuzxc/H-DenseUNet]
 - __Duong Hong Anh__ giảm số filter của model cũ rồi train lại (__model 2__)
 
 Kết quả thu được: cả 2 models đều có số param khoảng 9M tuy nhiên __model 2__ cho kết quả tốt hơn
