@@ -8,5 +8,5 @@ by [Xiaomeng Li](https://scholar.google.com/citations?user=uVTzPpoAAAAJ&hl=en), 
 
 Kết quả thu được: cả 2 models đều có số param khoảng 9M tuy nhiên __model 2__ cho kết quả tốt hơn
 
-Sau khi giảm số filter xuống một nửa và train trên __10__ file .nii đầu tiên với __5__ epoch và validate trên __2__ file bất kì thì kết quả thu được loss trên tập train là 0.5129 __acc__: 0.9188, loss trên tập val 0.3454 __acc__: 0.8962
+Sau khi giảm số filter xuống một nửa và train trên __10__ file .nii đầu tiên với __5__ epoch và validate trên __2__ file bất kì thì kết quả thu được loss trên tập train là 0.5129 __acc__: 0.9188, loss trên tập val 0.3454 __acc__: 0.8962. Tuy nhiên acc mỗi lần train khác nhau, có lần tập acc_val là 100% (như trong notebook)
 
